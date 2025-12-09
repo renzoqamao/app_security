@@ -9,3 +9,5 @@ insert into authorities (username, authority) VALUES
 insert into customers (email, pwd, rol) VALUES
   ('super_user@custom.com', 'to_be_encoded', 'admin'),
   ('basic_user@custom.com', 'to_be_encoded', 'user');
+
+-- to_be_encoded:  $2a$10$iSMcIWJrClSUyHXijo93FOGosTwna1Jcr/xNV8hnlY1VUkiVPpvHm
