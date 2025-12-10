@@ -43,10 +43,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> 
             //auth.requestMatchers("/loans", "/balance", "/accounts", "/cards")
                 auth
-                .requestMatchers("/loans").hasAuthority("VIEW_LOANS")
-                .requestMatchers("/balance").hasAuthority("VIEW_BALANCE")
-                .requestMatchers("/cards").hasAuthority("VIEW_CARDS")
-                .requestMatchers("/accounts").hasAnyAuthority("VIEW_ACCOUNTS","VIEW_CARDS")
+                .requestMatchers("/loans").hasRole("LOANS")
+                .requestMatchers("/balance").hasRole("BALANCE")
+                .requestMatchers("/cards").hasRole("CARDS")
+                .requestMatchers("/accounts").hasRole("ACCOUNT")
                 .anyRequest().permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
