@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class AppSecurityApplication {
 
 	public static void main(String[] args) {
