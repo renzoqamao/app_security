@@ -1,6 +1,8 @@
 package com.custom.app_security.security;
 
 import java.util.Collections;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,7 +32,10 @@ public class MyAuthenticationProvider implements AuthenticationProvider{
         final var customerPwd = customer.getPassword();
 
         if(passwordEncoder.matches(pwd, customerPwd)){
-            final var authorities = Collections.singletonList(new SimpleGrantedAuthority(customer.getRole()));
+            final var roles = customer.getRoles();
+            final var authorities = roles.stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .collect(Collectors.toList());
             return new UsernamePasswordAuthenticationToken(username,customerPwd, authorities);
         }else{
             throw new BadCredentialsException("Invalid Credentials");
