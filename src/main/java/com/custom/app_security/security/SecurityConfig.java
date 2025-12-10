@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
@@ -23,42 +24,50 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/loans", "/balance", "/accounts", "/cards")
-                        .authenticated()
-                        .anyRequest().permitAll())
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/loans", "/balance", "/accounts", "/cards")
+                .authenticated()
+                .anyRequest().permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
+
+        http.cors(cors -> cors.disable());
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 
-    /*@Bean
-    InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        var admin = User.withUsername("admin")
-                .password("to_be_encoded")
-                .authorities("ADMIN")
-                .build();
+    /*
+     * @Bean
+     * InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+     * var admin = User.withUsername("admin")
+     * .password("to_be_encoded")
+     * .authorities("ADMIN")
+     * .build();
+     * 
+     * var user = User.withUsername("user")
+     * .password("to_be_encoded")
+     * .authorities("USER")
+     * .build();
+     * 
+     * return new InMemoryUserDetailsManager(admin, user);
+     * }
+     */
 
-        var user = User.withUsername("user")
-                .password("to_be_encoded")
-                .authorities("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
-    }*/
-
-    /*@Bean
-    UserDetailsService userDetailsService(DataSource datasource){
-        return new JdbcUserDetailsManager(datasource);
-    }*/
-
-    /*@Bean
-    PasswordEncoder passwordEncoder() {
-        return  NoOpPasswordEncoder.getInstance();
-    }*/
+    /*
+     * @Bean
+     * UserDetailsService userDetailsService(DataSource datasource){
+     * return new JdbcUserDetailsManager(datasource);
+     * }
+     */
 
     @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
+
+    /*
+     * @Bean
+     * PasswordEncoder passwordEncoder(){
+     * return new BCryptPasswordEncoder();
+     * }
+     */
 }

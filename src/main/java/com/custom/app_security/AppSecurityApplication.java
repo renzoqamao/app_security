@@ -10,17 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableWebSecurity
-public class AppSecurityApplication implements CommandLineRunner {
+public class AppSecurityApplication {
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
 	public static void main(String[] args) {
 		SpringApplication.run(AppSecurityApplication.class, args);
 	}
 
-	@Override
-	public void run(String ...args) throws Exception{
-		System.out.println(passwordEncoder.encode("to_be_encoded"));
-	}
 
 }
